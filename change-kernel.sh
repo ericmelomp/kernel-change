@@ -74,7 +74,7 @@ sudo update-grub
 echo -e "${GREEN}Reiniciar o sistema agora? Digite 'yes' para confirmar:${NC} "
 read -r confirm
 if [ "$confirm" != "yes" ]; then
-  log "Reinício cancelado."
+  log "Reboot cancelado."
   exit 0
 fi
 
