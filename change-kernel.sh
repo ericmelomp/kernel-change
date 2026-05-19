@@ -59,11 +59,13 @@ dpkg -l | grep -E "linux-image.*generic|linux-headers.*generic"
 
 SUBMENU_ID=$(awk "/submenu 'Advanced options for Ubuntu'/"'{print $(NF-1)}' /boot/grub/grub.cfg | cut -d"'" -f2 | head -n1)
 KERNEL_ID=$(awk "/menuentry 'Ubuntu, with Linux .*generic'/"'{print $(NF-1)}' /boot/grub/grub.cfg | cut -d"'" -f2 | head -n1)
+log "SUBMENU_ID: $SUBMENU_ID"
+log "KERNEL_ID: $KERNEL_ID"
 log "GRUB_DEFAULT: $SUBMENU_ID>$KERNEL_ID"
 
 log "Alterando o kernel padrão no GRUB..."
 sudo cp /etc/default/grub.d/50-cloudimg-settings.cfg /etc/default/50-cloudimg-settings.cfg.bk
-echo "GRUB_DEFAULT="$SUBMENU_ID>$KERNEL_ID"" > /etc/default/grub.d/50-cloudimg-settings.cfg
+echo "GRUB_DEFAULT="$SUBMENU_ID">"$KERNEL_ID"" > /etc/default/grub.d/50-cloudimg-settings.cfg
 #echo "GRUB_DEFAULT="$SUBMENU_ID>$KERNEL_ID"" | sudo tee /etc/default/grub.d/50-cloudimg-settings.cfg
 
 log "Conteúdo do arquivo grub.cfg:"
