@@ -65,8 +65,7 @@ log "GRUB_DEFAULT: $SUBMENU_ID>$KERNEL_ID"
 
 log "Alterando o kernel padrão no GRUB..."
 sudo cp /etc/default/grub.d/50-cloudimg-settings.cfg /etc/default/50-cloudimg-settings.cfg.bk
-echo "GRUB_DEFAULT=""$SUBMENU_ID">"$KERNEL_ID""" > /etc/default/grub.d/50-cloudimg-settings.cfg
-#echo "GRUB_DEFAULT="$SUBMENU_ID>$KERNEL_ID"" | sudo tee /etc/default/grub.d/50-cloudimg-settings.cfg
+printf 'GRUB_DEFAULT="%s>%s"\n' "$SUBMENU_ID" "$KERNEL_ID" | sudo tee /etc/default/grub.d/50-cloudimg-settings.cfg > /dev/null
 
 log "Conteúdo do arquivo grub.cfg:"
 cat /etc/default/grub.d/50-cloudimg-settings.cfg
