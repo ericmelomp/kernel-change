@@ -72,8 +72,12 @@ cat /etc/default/grub.d/50-cloudimg-settings.cfg
 log "Atualizando o GRUB..."
 sudo update-grub
 
-echo -e "${GREEN}Reiniciar o sistema agora? Digite 'yes' para confirmar:${NC} "
-read -r confirm
+# Lê do terminal, não do stdin (necessário quando o script vem de: curl ... | bash)
+echo -e "${GREEN}Reiniciar o sistema agora? Digite 'yes' para confirmar:${NC} " >/dev/tty
+if ! read -r confirm </dev/tty; then
+  error "Não foi possível ler a confirmação. Reinicie manualmente com: sudo reboot"
+  exit 0
+fi
 if [ "$confirm" != "yes" ]; then
   log "Reboot cancelado."
   exit 0

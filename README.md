@@ -177,6 +177,16 @@ O script depende dos textos:
 
 Se a imagem usar outro idioma ou estrutura de menu, ajuste as linhas `awk` em `change-kernel.sh` ou configure `GRUB_DEFAULT` manualmente.
 
+### Confirmação de reboot pulada ou "Reboot cancelado" sem digitar nada
+
+Isso ocorria ao rodar `curl ... | sudo bash`: o **stdin** é o pipe do script, e o `read` lia o fim do pipe em vez do teclado. O script agora lê a confirmação de **`/dev/tty`** (terminal).
+
+Se ainda falhar via SSH sem TTY alocado, use:
+
+```bash
+ssh -t usuario@IP_DA_VM 'curl -fsSL ... | sudo bash'
+```
+
 ### Script interrompido antes do reboot
 
 Kernel e GRUB podem já estar configurados. Reinicie quando conveniente ou valide com os comandos da seção [Verificação após o reboot](#verificação-após-o-reboot).
